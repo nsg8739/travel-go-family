@@ -111,7 +111,35 @@ document.addEventListener('change',e=>{if(readOnly)return render();if(e.target.d
 $('#editTripBtn').onclick=()=>openModal('trip');
 $('#resetBtn').onclick=()=>openModal('newTrip');
 function normalizeCloudPlan(plan){return{...plan,board:Array.isArray(plan.board)?plan.board:[],accommodations:Array.isArray(plan.accommodations)?plan.accommodations:[],shortcuts:Array.isArray(plan.shortcuts)?plan.shortcuts:[],schedules:Array.isArray(plan.schedules)?plan.schedules:[],packing:Array.isArray(plan.packing)?plan.packing:[],expenses:Array.isArray(plan.expenses)?plan.expenses:[]}}
-async function connectAccountData(){const localPlans=[...state.plans];for(const plan of localPlans.filter(x=>x.liveShare?.ownerToken)){const claimed=await authRpc('claim_trip_share',{p_id:plan.liveShare.id,p_owner_token:plan.liveShare.ownerToken});if(claimed)delete plan.liveShare.ownerToken}let rows=await authRpc('list_my_trip_shares');rows=Array.isArray(rows)?rows:[];if(!rows.length){for(const plan of localPlans){const created=await authRpc('create_my_trip_share',{p_payload:publicPlan(plan)});const row=Array.isArray(created)?created[0]:created;plan.liveShare={id:row.id,viewerToken:row.viewer_token}}state={activeId:localPlans[0].id,plans:localPlans};localStorage.setItem(KEY,JSON.stringify(state));for(const plan of localPlans)await authRpc('update_my_trip_share',{p_id:plan.liveShare.id,p_payload:publicPlan(plan)})}else{const plans=rows.map(row=>{const plan=normalizeCloudPlan(row.payload);plan.liveShare={id:row.id,viewerToken:row.viewer_token};return plan});state={activeId:plans[0].id,plans};localStorage.setItem(KEY,JSON.stringify(state))}data=currentPlan();scheduleDate='all';render()}
+async function connectAccountData(){
+  const localPlans=[...state.plans];
+  for(const plan of localPlans.filter(x=>x.liveShare?.ownerToken)){
+    try{
+      const claimed=await authRpc('claim_trip_share',{p_id:plan.liveShare.id,p_owner_token:plan.liveShare.ownerToken});
+      if(claimed)delete plan.liveShare.ownerToken;
+    }catch(error){
+      if(!String(error.message).includes('PGRST202'))throw error;
+      delete plan.liveShare;
+    }
+  }
+  let rows=await authRpc('list_my_trip_shares');
+  rows=Array.isArray(rows)?rows:[];
+  if(!rows.length){
+    for(const plan of localPlans){
+      const created=await authRpc('create_my_trip_share',{p_payload:publicPlan(plan)});
+      const row=Array.isArray(created)?created[0]:created;
+      plan.liveShare={id:row.id,viewerToken:row.viewer_token};
+    }
+    state={activeId:localPlans[0].id,plans:localPlans};
+    localStorage.setItem(KEY,JSON.stringify(state));
+    for(const plan of localPlans)await authRpc('update_my_trip_share',{p_id:plan.liveShare.id,p_payload:publicPlan(plan)});
+  }else{
+    const plans=rows.map(row=>{const plan=normalizeCloudPlan(row.payload);plan.liveShare={id:row.id,viewerToken:row.viewer_token};return plan});
+    state={activeId:plans[0].id,plans};
+    localStorage.setItem(KEY,JSON.stringify(state));
+  }
+  data=currentPlan();scheduleDate='all';render();
+}
 async function ensureLiveShare(){if(!await validSession())throw new Error('관리자 로그인이 필요합니다.');let meta=data.liveShare;if(!meta){const created=await authRpc('create_my_trip_share',{p_payload:publicPlan(data)});const row=Array.isArray(created)?created[0]:created;if(!row?.id)throw new Error('공유 정보를 만들지 못했습니다.');meta=data.liveShare={id:row.id,viewerToken:row.viewer_token};localStorage.setItem(KEY,JSON.stringify(state))}else await authRpc('update_my_trip_share',{p_id:meta.id,p_payload:publicPlan(data)});return meta}
 async function copyInvitation(link,message){let copied=false;try{await navigator.clipboard.writeText(link);copied=true}catch{const area=document.createElement('textarea');area.value=link;document.body.append(area);area.select();copied=document.execCommand('copy');area.remove()}if(copied)alert(message);else prompt('아래 링크를 복사하세요.',link)}
 function publishedBase(){return location.protocol==='file:'?'https://nsg8739.github.io/travel-go-family/':location.href.split('#')[0]}
