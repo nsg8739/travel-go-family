@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff6b4a">
+  <title>여행가자GO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav><a class="brand" href="#">여행가자<span>GO</span></a><div class="nav-actions"><button id="tripListBtn" class="ghost">여행 목록</button><button id="resetBtn" class="ghost">+ 새 여행</button></div></nav>
+    <div class="hero-copy">
+      <p class="eyebrow">우리 가족 여행 플래너</p>
+      <h1 id="tripTitleView">제주도 가족 여행</h1>
+      <p id="tripMeta">2026. 8. 3. — 8. 6. · 4명</p>
+      <div class="hero-actions"><button id="editTripBtn" class="primary">여행 정보 수정</button><button id="shareBtn" class="share-btn">🔗 가족 초대 링크</button></div>
+    </div>
+    <div class="sun"></div><div class="hill hill-a"></div><div class="hill hill-b"></div>
+  </header>
+
+  <div id="readOnlyBanner" class="readonly-banner" hidden>읽기 전용 초대 화면입니다. 여행 내용을 볼 수만 있어요.</div>
+
+  <main>
+    <section class="stats" aria-label="여행 현황">
+      <article><span>출발까지</span><strong id="daysLeft">D-14</strong></article>
+      <article><span>일정</span><strong id="scheduleCount">0개</strong></article>
+      <article><span>준비 완료</span><strong id="packingProgress">0%</strong></article>
+      <article><span>예상 경비</span><strong id="expenseTotal">0원</strong></article>
+    </section>
+
+    <div>
+      <section class="panel">
+        <div class="section-head"><div><p class="eyebrow blue">하루하루 알차게</p><h2>우리 여행 일정</h2></div><button class="add-btn" data-open="schedule">+ 일정</button></div>
+        <div id="scheduleFilters" class="filter-tabs" aria-label="일정 날짜 필터"></div>
+        <div id="scheduleList" class="timeline"></div>
+      </section>
+    </div>
+
+    <section class="panel expenses">
+      <div class="section-head"><div><p class="eyebrow gold">한눈에 보는 예산</p><h2>여행 경비</h2></div><button class="add-btn" data-open="expense">+ 지출 추가</button></div>
+      <div class="expense-layout"><div id="expenseChart" class="donut"><span id="donutTotal">0원</span></div><div id="expenseList" class="expense-list"></div></div>
+    </section>
+
+    <section class="panel board-panel">
+      <div class="section-head"><div><p class="eyebrow purple">알아두면 좋은 정보</p><h2>여행 정보 보드</h2></div><button class="add-btn" data-open="board">+ 정보 등록</button></div>
+      <div id="boardList" class="board-grid"></div>
+    </section>
+    <details class="panel packing-panel" open>
+      <summary>
+        <div><p class="eyebrow green">빠뜨리지 않게</p><h2>준비물 체크 <span id="packingSummary"></span></h2></div>
+        <span class="fold-icon" aria-hidden="true">⌄</span>
+      </summary>
+      <div class="packing-content">
+        <div class="packing-tools"><div class="progress"><i id="progressBar"></i></div><button class="add-btn" data-open="packing">+ 준비물</button></div>
+        <div id="packingList" class="check-list"></div>
+      </div>
+    </details>  </main>
+
+  <dialog id="modal">
+    <form id="modalForm" method="dialog">
+      <div class="modal-head"><h2 id="modalTitle">정보 입력</h2><button type="button" id="closeModal" aria-label="닫기">×</button></div>
+      <div id="modalFields"></div>
+      <div class="modal-actions"><button type="button" class="ghost" id="cancelModal">취소</button><button class="primary" value="default">저장하기</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="tripListModal" class="wide-modal">
+    <div class="modal-head"><div><p class="eyebrow coral">우리 가족 여행 기록</p><h2>여행 목록</h2></div><button type="button" id="closeTripList" aria-label="닫기">×</button></div>
+    <div id="tripList" class="trip-list"></div>
+  </dialog>
+  <template id="emptyTemplate"><div class="empty"><span>✦</span><p>아직 등록된 항목이 없어요.</p></div></template>
+  <script src="app.js"></script>
+</body>
+</html>
