@@ -26,3 +26,4 @@ html,body{max-width:100%;overflow-x:hidden}.modal-card{max-height:88vh;overflow-
 .expense-row .amount{white-space:nowrap}
 #authModal{overflow:hidden}#authForm{padding:26px;min-width:0}.auth-help,.auth-message{max-width:100%;overflow-wrap:anywhere;word-break:keep-all;line-height:1.55}.auth-message{color:var(--coral)}
 @media(max-width:760px){#authModal{width:calc(100vw - 24px);max-width:none}#authForm{padding:18px}.auth-help{font-size:14px}}
+.shortcut-icon img{display:block;width:100%;height:100%;border-radius:13px;object-fit:cover}
