@@ -109,7 +109,7 @@
       <section class="fx-converter" aria-label="필리핀 환율 계산기">
         <div class="fx-head"><strong>🇵🇭 필리핀 환율 계산</strong><button type="button" id="refreshPhpRate">환율 새로고침</button></div>
         <label class="fx-rate">1 PHP = <input id="phpKrwRate" type="number" min="0.01" step="0.01" value="24"> KRW</label>
-        <div class="fx-inputs"><label>필리핀 페소 (PHP)<input id="phpAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0"></label><span>⇄</span><label>한국 원 (KRW)<input id="krwAmount" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></label></div>
+        <div class="fx-inputs"><label>필리핀 페소 (PHP)<input id="phpAmount" type="text" min="0" step="0.01" inputmode="decimal" placeholder="0"></label><span>⇄</span><label>한국 원 (KRW)<input id="krwAmount" type="text" min="0" step="1" inputmode="numeric" placeholder="0"></label></div>
         <small id="phpRateStatus">최근 환율을 불러오는 중…</small>
       </section>      <div class="calculator-keys">
         <button type="button" data-calc="clear" class="calc-function">C</button><button type="button" data-calc="sign" class="calc-function">±</button><button type="button" data-calc="percent" class="calc-function">%</button><button type="button" data-calc="/" class="calc-op">÷</button>
