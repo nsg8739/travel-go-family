@@ -11,7 +11,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
+  <aside class="side-nav" aria-label="여행 메뉴">
+    <a class="side-brand" href="#" data-nav="dashboard">여행가자<span>GO</span></a>
+    <div class="side-menu">
+      <button class="active" data-nav="dashboard"><span>⌂</span><b>대시보드</b></button>
+      <button data-nav="schedule"><span>▦</span><b>여행 일정</b></button>
+      <button data-nav="expense"><span>₩</span><b>여행 경비</b></button>
+      <button data-nav="board"><span>✎</span><b>여행 정보</b></button>
+      <button data-nav="stay"><span>▤</span><b>숙소 정보</b></button>
+      <button data-nav="packing"><span>✓</span><b>준비물</b></button>
+    </div>
+  </aside>
+  <header class="hero page-section active" data-page="dashboard">
     <nav><a class="brand" href="#">여행가자<span>GO</span></a><div class="nav-actions"><button id="installBtn" class="ghost" hidden>앱 설치</button><button id="tripListBtn" class="ghost">여행 목록</button><button id="resetBtn" class="ghost">+ 새 여행</button></div></nav>
     <div class="hero-copy">
       <p class="eyebrow">우리 가족 여행 플래너</p>
@@ -25,22 +36,27 @@
   <div id="readOnlyBanner" class="readonly-banner" hidden>읽기 전용 초대 화면입니다. 여행 내용을 볼 수만 있어요.</div>
 
   <main>
-    <section class="stats" aria-label="여행 현황">
+    <section class="stats page-section active" data-page="dashboard" aria-label="여행 현황">
       <article><span>출발까지</span><strong id="daysLeft">D-14</strong></article>
       <article><span>일정</span><strong id="scheduleCount">0개</strong></article>
       <article><span>준비 완료</span><strong id="packingProgress">0%</strong></article>
       <article><span>예상 경비</span><strong id="expenseTotal">0원</strong></article>
     </section>
+    <section class="panel shortcuts-panel page-section active" data-page="dashboard">
+      <div class="section-head"><div><p class="eyebrow blue">여행 중 빠르게</p><h2>자주 쓰는 앱 바로가기</h2></div><button class="add-btn" data-open="shortcut">+ 바로가기 추가</button></div>
+      <div id="shortcutList" class="shortcut-grid"></div>
+    </section>
 
     <div>
-      <section class="panel">
+      <section class="panel page-section" data-page="schedule">
         <div class="section-head"><div><p class="eyebrow blue">하루하루 알차게</p><h2>우리 여행 일정</h2></div><button class="add-btn" data-open="schedule">+ 일정</button></div>
         <div id="scheduleFilters" class="filter-tabs" aria-label="일정 날짜 필터"></div>
+        <div id="routeOverview" class="route-overview"></div>
         <div id="scheduleList" class="timeline"></div>
       </section>
     </div>
 
-    <section class="panel expenses">
+    <section class="panel expenses page-section" data-page="expense">
       <div class="section-head"><div><p class="eyebrow gold">한눈에 보는 예산</p><h2>여행 경비</h2></div><button class="add-btn" data-open="expense">+ 지출 추가</button></div>
       <div class="budget-summary">
         <div><span>목표 예산</span><strong id="budgetTarget">미설정</strong></div>
@@ -50,11 +66,15 @@
       <div class="expense-layout"><div id="expenseChart" class="donut"><span id="donutTotal">0원</span></div><div id="expenseList" class="expense-list"></div></div>
     </section>
 
-    <section class="panel board-panel">
+    <section class="panel board-panel page-section" data-page="board">
       <div class="section-head"><div><p class="eyebrow purple">알아두면 좋은 정보</p><h2>여행 정보 보드</h2></div><button class="add-btn" data-open="board">+ 정보 등록</button></div>
       <div id="boardList" class="board-grid"></div>
     </section>
-    <details class="panel packing-panel" open>
+    <section class="panel stay-panel page-section" data-page="stay">
+      <div class="section-head"><div><p class="eyebrow purple">편안한 여행의 거점</p><h2>숙소 정보</h2></div><button class="add-btn" data-open="stay">+ 숙소 등록</button></div>
+      <div id="stayList" class="stay-grid"></div>
+    </section>
+    <details class="panel packing-panel page-section" data-page="packing" open>
       <summary>
         <div><p class="eyebrow green">빠뜨리지 않게</p><h2>준비물 체크 <span id="packingSummary"></span></h2></div>
         <span class="fold-icon" aria-hidden="true">⌄</span>
