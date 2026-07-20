@@ -104,7 +104,25 @@ document.addEventListener('click',async e=>{
   const edit=e.target.closest('[data-edit]');if(edit){e.preventDefault();openEdit(edit.dataset.edit,edit.dataset.id)}
   const date=e.target.closest('[data-sdate]');if(date){scheduleDate=date.dataset.sdate;renderScheduleFilters();renderRouteOverview();renderSchedules()}
   const switcher=e.target.closest('[data-trip]');if(switcher){state.activeId=Number(switcher.dataset.trip);data=currentPlan();scheduleDate='all';persist();$('#tripListModal').close()}
-  const tripDel=e.target.closest('[data-trip-del]');if(tripDel){if(state.plans.length===1)return alert('여행 기록은 최소 한 개가 필요해요.');if(confirm('이 여행과 모든 기록을 삭제할까요?')){const id=Number(tripDel.dataset.tripDel);state.plans=state.plans.filter(x=>x.id!==id);if(state.activeId===id)state.activeId=state.plans[0].id;persist()}}
+  const tripDel=e.target.closest('[data-trip-del]');if(tripDel){
+    if(state.plans.length===1)return alert('여행 기록은 최소 한 개가 필요해요.');
+    if(!confirm('이 여행과 모든 기록을 삭제할까요?'))return;
+    const id=Number(tripDel.dataset.tripDel);
+    const plan=state.plans.find(x=>x.id===id);
+    if(plan?.liveShare?.id){
+      try{
+        if(!await validSession())throw new Error('관리자 로그인이 필요합니다.');
+        const deleted=await authRpc('delete_my_trip_share',{p_id:plan.liveShare.id});
+        if(!deleted)throw new Error('클라우드 여행을 삭제하지 못했습니다.');
+      }catch(error){
+        alert(`삭제하지 못했습니다. ${error.message}`);
+        return;
+      }
+    }
+    state.plans=state.plans.filter(x=>x.id!==id);
+    if(state.activeId===id)state.activeId=state.plans[0].id;
+    persist();
+  }
   const del=e.target.closest('[data-del]');if(del){e.preventDefault();const labels={schedule:'일정',expense:'경비',packing:'준비물',board:'여행 정보',stay:'숙소 정보',shortcut:'앱 바로가기'};if(!confirm(`${labels[del.dataset.del]||'항목'}을(를) 삭제할까요?`))return;if(del.dataset.del==='schedule')data.expenses=data.expenses.filter(x=>x.scheduleId!=del.dataset.id);const collections={schedule:'schedules',expense:'expenses',packing:'packing',board:'board',stay:'accommodations',shortcut:'shortcuts'};const collection=collections[del.dataset.del];const removed=data[collection].find(x=>x.id==del.dataset.id);data[collection]=data[collection].filter(x=>x.id!=del.dataset.id);if(del.dataset.del==='stay'&&removed?.voucherId)await deleteVoucher(removed.voucherId);persist()}
 });
 document.addEventListener('change',e=>{if(readOnly)return render();if(e.target.dataset.check){data.packing.find(x=>x.id==e.target.dataset.check).done=e.target.checked;persist()}});
