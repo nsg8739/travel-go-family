@@ -102,7 +102,19 @@
     </div>
     <div id="tripList" class="trip-list"></div>
   </dialog>
-  <dialog id="authModal">
+  <dialog id="calculatorModal" class="calculator-modal">
+    <div class="calculator-shell">
+      <div class="modal-head"><div><p class="eyebrow blue">여행 중 빠른 계산</p><h2>계산기</h2></div><button type="button" id="closeCalculator" aria-label="닫기">×</button></div>
+      <output id="calculatorDisplay" class="calculator-display">0</output>
+      <div class="calculator-keys">
+        <button type="button" data-calc="clear" class="calc-function">C</button><button type="button" data-calc="sign" class="calc-function">±</button><button type="button" data-calc="percent" class="calc-function">%</button><button type="button" data-calc="/" class="calc-op">÷</button>
+        <button type="button" data-calc="7">7</button><button type="button" data-calc="8">8</button><button type="button" data-calc="9">9</button><button type="button" data-calc="*" class="calc-op">×</button>
+        <button type="button" data-calc="4">4</button><button type="button" data-calc="5">5</button><button type="button" data-calc="6">6</button><button type="button" data-calc="-" class="calc-op">−</button>
+        <button type="button" data-calc="1">1</button><button type="button" data-calc="2">2</button><button type="button" data-calc="3">3</button><button type="button" data-calc="+" class="calc-op">+</button>
+        <button type="button" data-calc="0" class="calc-zero">0</button><button type="button" data-calc=".">.</button><button type="button" data-calc="=" class="calc-op">=</button>
+      </div>
+    </div>
+  </dialog>  <dialog id="authModal">
     <form id="authForm">
       <div class="modal-head"><div><p class="eyebrow coral">관리자 계정</p><h2>로그인</h2></div><button type="button" id="closeAuth" aria-label="닫기">×</button></div>
       <p class="auth-help">같은 계정으로 로그인하면 PC와 모바일에서 동일한 여행을 수정할 수 있습니다.</p>
