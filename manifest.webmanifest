@@ -1,0 +1,12 @@
+{
+  "name": "여행가자GO - 가족 여행 플래너",
+  "short_name": "여행가자GO",
+  "description": "가족 여행 일정, 경비, 준비물과 여행 정보를 관리하세요.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffaf2",
+  "theme_color": "#ff6b4a",
+  "lang": "ko-KR",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

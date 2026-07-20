@@ -5,11 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ff6b4a">
   <title>여행가자GO</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="hero">
-    <nav><a class="brand" href="#">여행가자<span>GO</span></a><div class="nav-actions"><button id="tripListBtn" class="ghost">여행 목록</button><button id="resetBtn" class="ghost">+ 새 여행</button></div></nav>
+    <nav><a class="brand" href="#">여행가자<span>GO</span></a><div class="nav-actions"><button id="installBtn" class="ghost" hidden>앱 설치</button><button id="tripListBtn" class="ghost">여행 목록</button><button id="resetBtn" class="ghost">+ 새 여행</button></div></nav>
     <div class="hero-copy">
       <p class="eyebrow">우리 가족 여행 플래너</p>
       <h1 id="tripTitleView">제주도 가족 여행</h1>
@@ -39,6 +42,11 @@
 
     <section class="panel expenses">
       <div class="section-head"><div><p class="eyebrow gold">한눈에 보는 예산</p><h2>여행 경비</h2></div><button class="add-btn" data-open="expense">+ 지출 추가</button></div>
+      <div class="budget-summary">
+        <div><span>목표 예산</span><strong id="budgetTarget">미설정</strong></div>
+        <div><span>등록 경비</span><strong id="budgetSpent">0원</strong></div>
+        <div id="budgetBalanceBox"><span id="budgetBalanceLabel">남은 예산</span><strong id="budgetBalance">-</strong></div>
+      </div>
       <div class="expense-layout"><div id="expenseChart" class="donut"><span id="donutTotal">0원</span></div><div id="expenseList" class="expense-list"></div></div>
     </section>
 
@@ -67,6 +75,11 @@
 
   <dialog id="tripListModal" class="wide-modal">
     <div class="modal-head"><div><p class="eyebrow coral">우리 가족 여행 기록</p><h2>여행 목록</h2></div><button type="button" id="closeTripList" aria-label="닫기">×</button></div>
+    <div class="backup-tools">
+      <button type="button" id="exportBackup" class="ghost">백업 파일 저장</button>
+      <label class="ghost import-label" for="importBackup">백업 파일 복원</label>
+      <input type="file" id="importBackup" accept="application/json,.json" hidden>
+    </div>
     <div id="tripList" class="trip-list"></div>
   </dialog>
   <template id="emptyTemplate"><div class="empty"><span>✦</span><p>아직 등록된 항목이 없어요.</p></div></template>
